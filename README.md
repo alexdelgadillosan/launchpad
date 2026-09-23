@@ -1,34 +1,55 @@
 # Launchpad
 
-Self-service internal developer platform (golden paths).
+Self-service internal developer platform (golden paths) — interactive demo.
+
+**Live:** https://alexdelgadillosan.github.io/launchpad/
 
 **Problem:** Creating a new service should not mean hand-writing CI, Docker, Helm, and deploy wiring every time.
 
-**Stack (target):** Backstage (or equivalent portal) · templates · CI · Helm · ArgoCD · Kubernetes (Kind for local)
+**Stack (target):** Developer portal · templates · CI · Helm · ArgoCD · Kubernetes
 
-**Status:** Scaffold — implementation in progress.
+## What this demo shows
+
+1. Portal home with **Create Service**
+2. Wizard: service name + template (FastAPI / Node / optional .NET)
+3. Animated provisioning pipeline (~10s):
+   - Create repo → Dockerfile → CI (tests) → Helm chart → ArgoCD sync → Running on Kubernetes
+4. Fake stage logs
+5. Service card with mock URL, **Rollback**, and **Open Observability** (SLO panel)
+6. Golden path explanation sidebar
+
+This is a client-side simulation of the golden path UX for portfolio demos. A full Kind/Backstage stack is optional for deeper labs.
 
 ## Architecture
 
-Developer portal → “Create service” → repo + Dockerfile + CI + Helm → ArgoCD → cluster
+```
+Developer portal → “Create service”
+  → repo + Dockerfile + CI + Helm
+  → ArgoCD sync
+  → Kubernetes
+```
 
-## What this repo will demonstrate
-
-- Golden path for FastAPI/Python (and optionally Node)
-- Automated CI + container + deploy manifests
-- Preview / rollback story (MVP scope)
-
-## Demo
-
-- Live: _coming soon_ (likely video — full cluster 24/7 is optional)
-- Video: _coming soon_
-
-## Run
+## Run locally
 
 ```bash
-# local Kind + portal  (coming soon)
+npm install
+npm run dev
 ```
+
+Build for GitHub Pages (`base: /launchpad/`):
+
+```bash
+npm install
+npm run build
+npm run preview
+```
+
+## Deploy
+
+Pushes to `main` build and publish via [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml).
+
+Enable **Settings → Pages → Source: GitHub Actions** on the repo.
 
 ## Attribution
 
-Will use an IDP / Backstage lab starter as base; golden paths and docs call out what was added.
+Portfolio demo of an IDP golden-path portal. Stages and logs are simulated; production wiring would call GitHub, a container registry, Helm, and ArgoCD against a real cluster.
